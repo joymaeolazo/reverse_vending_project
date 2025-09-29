@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #2c3e50;
+    }
+    h2 {
+      margin-top: 30px;
+      color: #34495e;
+      border-left: 5px solid #3498db;
+      padding-left: 10px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+    }
+    th {
+      background: #3498db;
+      color: white;
+      font-weight: bold;
+    }
+    tr:nth-child(even) { background: #f9f9f9; }
+    tr:hover { background: #ecf0f1; }
+    form { margin: 15px 0; }
+    input[type="text"], input[type="number"] {
+      padding: 8px;
+      margin-right: 6px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      padding: 8px 14px;
+      border: none;
+      border-radius: 6px;
+      background: #3498db;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover { background: #2980b9; }
+    ul { list-style: none; padding: 0; }
+    .reward-item {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      align-items: center;
+      background: #fff;
+      margin: 8px 0;
+      padding: 12px 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      gap: 20px;
+    }
+    .reward-name { font-weight: bold; }
+    .reward-description {
+      text-align: center;
+      color: #555;
+      font-style: italic;
+    }
+    .reward-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+      align-items: center;
+    }
+    .btn-edit { background-color: #3498db; color: #fff; }
+    .btn-edit:hover { background-color: #2980b9; }
+    .btn-delete { background-color: #e74c3c; color: #fff; }
+    .btn-delete:hover { background-color: #c0392b; }
+    a.logout {
+      display: inline-block;
+      margin-top: 20px;
+      text-decoration: none;
+      padding: 10px 20px;
+      background: #e74c3c;
+      color: white;
+      border-radius: 6px;
+      transition: 0.3s;
+    }
+    a.logout:hover { background: #c0392b; }
+    /* style for inline edit form */
+    .edit-form input {
+      margin-right: 6px;
+      padding: 4px 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome Admin, <%= user.name %></h1>
+
+  <!-- USERS TABLE -->
+  <h2>All Users</h2>
+  <table>
+    <tr>
+      <th>ID</th><th>Name</th><th>Email</th><th>Points</th>
+    </tr>
+    <% users.forEach(u => { %>
+      <tr>
+        <td><%= u.id %></td>
+        <td><%= u.name %></td>
+        <td><%= u.email %></td>
+        <td><%= u.points %></td>
+      </tr>
+    <% }) %>
+  </table>
+
+  <!-- ADD REWARD FORM -->
+  <h2>Manage Rewards</h2>
+  <form action="/admin/rewards/add" method="POST">
+    <input type="text" name="name" placeholder="Reward Name" required />
+    <input type="text" name="description" placeholder="Description" />
+    <input type="number" name="cost" placeholder="Cost" required />
+    <button type="submit">Add Reward</button>
+  </form>
+
+  <!-- VIEW CLAIMED REWARDS LINK -->
+  <h2>Claimed Rewards</h2>
+  <a href="/admin/claims">View Claimed Rewards</a>
+
+  <!-- REWARD LIST -->
+  <ul>
+    <% rewards.forEach(r => { %>
+      <li class="reward-item">
+        <span class="reward-name"><%= r.name %> - <%= r.cost %> points</span>
+        <span class="reward-description"><%= r.description %></span>
+
+        <div class="reward-actions">
+          <!-- UPDATE FORM with inputs -->
+          <form action="/admin/rewards/edit/<%= r.id %>" method="POST" class="edit-form">
+            <input type="text"   name="name"        value="<%= r.name %>" required>
+            <input type="text"   name="description" value="<%= r.description %>">
+            <input type="number" name="cost"        value="<%= r.cost %>" required>
+            <button type="submit" class="btn-edit">Update</button>
+          </form>
+
+          <!-- DELETE FORM -->
+          <form action="/admin/rewards/delete/<%= r.id %>" method="POST">
+            <button type="submit" class="btn-delete">Delete</button>
+          </form>
+        </div>
+      </li>
+    <% }) %>
+  </ul>
+
+  <a href="/logout" class="logout">Logout</a>
+</body>
+</html>

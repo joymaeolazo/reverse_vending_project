@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <style>
+    /* ===== Popup styles ===== */
+    .popup-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .popup-box {
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      animation: pop-in 0.3s ease;
+    }
+    .popup-box h2 {
+      color: #27ae60;
+      margin-bottom: 10px;
+      font-size: 1.8rem;
+    }
+    .popup-box p { color: #555; margin-bottom: 20px; }
+    .popup-box button {
+      padding: 10px 20px;
+      background: #27ae60;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .popup-box button:hover { background: #219150; }
+    @keyframes pop-in {
+      from { transform: scale(0.8); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+
+    /* ===== Dashboard styles ===== */
+    body.dashboard-body {
+      font-family: Arial, sans-serif;
+      background: url("/acc_campus.png") no-repeat center center fixed;
+      background-size: cover;
+      margin: 0;
+      padding: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 700px;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    h1, h2 { color: #2c3e50; margin-bottom: 20px; text-align: center; }
+    .points {
+      font-weight: bold;
+      margin-bottom: 25px;
+      font-size: 1.2rem;
+      color: #3498db;
+      text-align: center;
+    }
+    ul { list-style: none; padding: 0; }
+    .reward-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f9f9f9;
+      padding: 10px 15px;
+      margin: 8px 0;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    .reward-item button {
+      background: #3498db;
+      border: none;
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .reward-item button:hover { background: #2980b9; }
+    a.logout {
+      display: block;
+      margin-top: 20px;
+      text-decoration: none;
+      padding: 10px 20px;
+      background: #27ae60;
+      color: #fff;
+      border-radius: 6px;
+      text-align: center;
+    }
+    a.logout:hover { background: #27ae60; }
+  </style>
+</head>
+<body class="dashboard-body">
+  <% if (popup) { %>
+    <div class="popup-overlay" id="claimPopup">
+      <div class="popup-box">
+        <h2>🎉 Congratulations!</h2>
+        <p>You’ve successfully claimed your reward.</p>
+        <button onclick="document.getElementById('claimPopup').style.display='none'">
+          OK
+        </button>
+      </div>
+    </div>
+  <% } %>
+
+  <div class="container">
+    <h1>Welcome, <%= user.name %></h1>
+    <img src="<%= qrCode %>" alt="QR Code" style="display:block;margin:0 auto;width:150px;height:150px;"/>
+    <p class="points">🪙 <%= user.points %> points</p>
+
+    <h2>Available Rewards</h2>
+    <ul>
+      <% rewards.forEach(r => { %>
+        <li>
+          <div class="reward-item">
+            <span><%= r.name %> - <%= r.cost %> points</span>
+            <form action="/claim/<%= r.id %>" method="POST">
+              <button type="submit">Claim</button>
+            </form>
+          </div>
+        </li>
+      <% }) %>
+    </ul>
+
+    <h2>Claimed Rewards</h2>
+    <% if (claimed.length === 0) { %>
+      <p>No rewards claimed yet.</p>
+    <% } else { %>
+      <ul>
+        <% claimed.forEach(c => { %>
+          <li>
+            <div class="reward-item">
+              <span><%= c.reward_name %></span>
+              <small>Claimed on: <%= new Date(c.claimed_at).toLocaleString() %></small>
+            </div>
+          </li>
+        <% }) %>
+      </ul>
+    <% } %>
+
+    <a href="/logout" class="logout">Logout</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "name": "reverse_vending_project",
+  "version": "1.0.0",
+  "description": "Web-based single-use plastic reverse vending machine project",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "body-parser": "^2.2.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-session": "^1.18.2",
+    "mysql2": "^3.14.3",
+    "qrcode": "^1.5.4"
+  },
+  "devDependencies": {},
+  "keywords": ["reverse", "vending", "project", "school-supplies", "web-app"],
+  "author": "",
+  "license": "ISC"
+}

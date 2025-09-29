@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Claimed Rewards</title>
+  <style>
+    /* ---- Base ---- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      background: #ecf0f1;
+      padding: 40px;
+      color: #2c3e50;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2rem;
+      color: #34495e;
+    }
+
+    /* ---- Table ---- */
+    .table-wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    thead {
+      background: #3498db;
+      color: #fff;
+    }
+    th, td {
+      padding: 14px 18px;
+      text-align: left;
+      font-size: 15px;
+    }
+    tbody tr:nth-child(even) {
+      background: #f8f9fa;
+    }
+    tbody tr:hover {
+      background: #eaf3fb;
+    }
+
+    /* ---- Back Link ---- */
+    .back-link {
+      display: block;
+      width: fit-content;
+      margin: 30px auto 0;
+      padding: 10px 24px;
+      background: #3498db;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 500;
+      transition: background 0.25s;
+    }
+    .back-link:hover {
+      background: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <h1>Claimed Rewards</h1>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Reward</th>
+          <th>Claimed At</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% claims.forEach(c => { %>
+          <tr>
+            <td><%= c.user %></td>
+            <td><%= c.reward %></td>
+            <td><%= c.claimed_at %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+  <a href="/admin/dashboard" class="back-link">← Back to Dashboard</a>
+</body>
+</html>
