@@ -9,14 +9,20 @@
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "body-parser": "^2.2.0",
+    "dotenv": "^17.2.2",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "express-session": "^1.18.2",
     "mysql2": "^3.14.3",
     "qrcode": "^1.5.4"
   },
-  "devDependencies": {},
-  "keywords": ["reverse", "vending", "project", "school-supplies", "web-app"],
+  "keywords": [
+    "reverse",
+    "vending",
+    "project",
+    "school-supplies",
+    "web-app"
+  ],
   "author": "",
   "license": "ISC"
 }
